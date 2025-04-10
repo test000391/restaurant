@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USA</title>
+    <title>Gomeid</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -11,66 +11,65 @@
     <style>
         body { visibility: hidden; font-family: Arial, sans-serif; margin: 0; padding: 0; direction: ltr; }
         body.loaded { visibility: visible; }
-        .loader { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px; border-radius: 10px; font-size: 20px; }
-        .top-bar { background-color: #fff; padding: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, .1); display: flex; justify-content: center; align-items: center; position: relative; }
+        .loader { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.7); color: #fff; padding: 20px; border-radius: 10px; font-size: 20px; }
+        .top-bar { background: #fff; padding: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); display: flex; justify-content: center; align-items: center; position: relative; }
         .top-bar img { max-height: 50px; }
-        .customer-service { position: absolute; right: 15px; font-size: 24px; color: #0078d4; transition: color 0.3s ease; cursor: pointer; text-decoration: none; }
+        .customer-service { position: absolute; right: 15px; font-size: 24px; color: #0078d4; cursor: pointer; text-decoration: none; }
         .customer-service:hover { color: #005a9e; }
         .carousel img { max-height: 400px; object-fit: cover; }
-        .filter-bar { background-color: #f7f7f7; padding: 15px; display: flex; justify-content: flex-start; gap: 10px; box-shadow: 0 -2px 5px rgba(0, 0, 0, .1); overflow-x: auto; white-space: nowrap; }
-        .filter-bar button { background-color: #0078d4; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
-        .filter-bar button:hover { background-color: #005a9e; }
+        .filter-bar { background: #f7f7f7; padding: 15px; display: flex; gap: 10px; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); overflow-x: auto; white-space: nowrap; }
+        .filter-bar button { background: #0078d4; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+        .filter-bar button:hover { background: #005a9e; }
+        .filter-bar button.active { background: #005a9e; }
         .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px; }
-        .card { background-color: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, .1); overflow: hidden; padding: 0; direction: ltr; }
-        .card img { width: 100%; height: 200px; object-fit: cover; margin-bottom: 15px; }
+        .card { background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
         .card-bottom { padding: 15px; }
         .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
         .card-buttons { display: flex; gap: 10px; }
-        .card-title { font-size: 18px; font-weight: bold; margin: 0; color: #333; flex-grow: 1; text-align: left; }
-        .card-description { font-size: 14px; color: #555; margin: 10px 0 0; }
-        .card-price-btn { background-color: #28a745; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        .card-price-btn:hover { background-color: #218838; }
-        .card-button { background-color: #0078d4; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
-        .card-button:hover { background-color: #005a9e; }
-        .footer { background-color: #fff; padding: 30px 0; color: #333; text-align: center; margin-top: 40px; border-top: 1px solid #ddd; }
+        .card-title { font-size: 18px; font-weight: bold; color: #333; flex-grow: 1; text-align: left; }
+        .card-description { font-size: 14px; color: #555; margin-top: 10px; }
+        .card-price-btn, .card-button { color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+        .card-price-btn { background: #28a745; }
+        .card-price-btn:hover { background: #218838; }
+        .card-button { background: #0078d4; }
+        .card-button:hover { background: #005a9e; }
+        .footer { background: #fff; padding: 30px 0; color: #333; text-align: center; margin-top: 40px; border-top: 1px solid #ddd; }
         .footer p { margin: 10px 0; font-size: 14px; color: #777; }
         .footer a { color: #0078d4; text-decoration: none; font-weight: bold; }
         .footer a:hover { text-decoration: underline; color: #005a9e; }
-        .social-icons { margin-bottom: 15px; }
-        .social-icons a { margin: 0 15px; font-size: 30px; color: #0078d4; transition: all .3s ease; }
+        .social-icons a { margin: 0 15px; font-size: 30px; color: #0078d4; }
         .social-icons a:hover { color: #005a9e; transform: scale(1.2); }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background-color: #fff; padding: 20px; border-radius: 10px; width: 80%; max-width: 400px; text-align: center; position: relative; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: #fff; padding: 20px; border-radius: 10px; width: 80%; max-width: 400px; text-align: center; position: relative; }
         .modal-image { max-width: 100%; height: auto; border-radius: 5px; margin-bottom: 15px; }
         .close-btn { position: absolute; right: 15px; top: 15px; font-size: 24px; color: #333; cursor: pointer; }
         .modal-buttons { margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .modal-button { display: inline-flex; align-items: center; justify-content: center; padding: 10px 20px; border-radius: 5px; text-decoration: none; color: #fff; border: none; cursor: pointer; font-size: 16px; }
-        .modal-button i { margin-right: 8px; font-size: 18px; }
-        .modal-button.email { background-color: #ea4335; }
-        .modal-button.unsubscribe { background-color: #ff4444; }
-        .modal-button.edit { background-color: #ffbb33; }
+        .modal-button { padding: 10px 20px; border-radius: 5px; color: #fff; border: none; cursor: pointer; font-size: 16px; display: flex; align-items: center; }
+        .modal-button i { margin-right: 8px; }
+        .modal-button.email { background: #ea4335; }
+        .modal-button.unsubscribe { background: #ff4444; }
+        .modal-button.edit { background: #ffbb33; }
         .modal-button:hover { opacity: 0.9; }
         #planOptions { margin: 20px 0; display: flex; flex-direction: column; gap: 15px; }
-        .option { border: 2px solid #ddd; border-radius: 8px; padding: 15px; background-color: #CCCCCC; color: #333; cursor: pointer; transition: all 0.3s ease; text-align: left; }
-        .option:hover { border-color: #999; background-color: #B3B3B3; }
-        .option.selected { border-color: #28a745; background-color: #28a745; color: #fff; box-shadow: 0 0 10px rgba(40, 167, 69, 0.3); }
-        .option strong { font-size: 16px; color: #333; }
-        .option.selected strong { color: #fff; }
-        .option br { margin-bottom: 5px; }
-        #nextButton { background-color: #28a745; }
-        #nextButton:hover { background-color: #218838; }
-        #nextButton:disabled { background-color: #ccc; cursor: not-allowed; }
+        .option { border: 2px solid #ddd; border-radius: 8px; padding: 15px; background: #ccc; color: #333; cursor: pointer; text-align: left; }
+        .option:hover { border-color: #999; background: #b3b3b3; }
+        .option.selected { border-color: #28a745; background: #28a745; color: #fff; }
+        .option strong { font-size: 16px; }
+        #nextButton { background: #28a745; }
+        #nextButton:hover { background: #218838; }
+        #nextButton:disabled { background: #ccc; cursor: not-allowed; }
         textarea, input[type="email"], input[type="text"] { width: 100%; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ddd; box-sizing: border-box; }
         .form-label { text-align: left; display: block; margin: 5px 0; font-weight: bold; color: #333; }
         .required { color: #ff4444; }
-        .notification { position: fixed; top: 20px; right: 20px; background-color: #0078d4; color: #fff; padding: 15px 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); z-index: 2000; opacity: 0; transition: opacity 0.5s ease; font-size: 16px; display: flex; align-items: center; gap: 10px; }
-        .notification.success { background-color: #28a745; }
-        .notification.error { background-color: #ff4444; }
+        .notification { position: fixed; top: 20px; right: 20px; background: #0078d4; color: #fff; padding: 15px 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); z-index: 2000; opacity: 0; transition: opacity 0.5s; }
+        .notification.success { background: #28a745; }
+        .notification.error { background: #ff4444; }
         .notification.show { opacity: 1; }
     </style>
 </head>
 <body>
-    <div id="loader" class="loader"><span>Loading...</span></div>
+    <div class="loader">Loading...</div>
     <div class="top-bar">
         <img src="Gomeid.png" alt="Gomeid Logo">
         <a href="#" class="customer-service" title="Customer Service"><i class="fas fa-headset"></i></a>
@@ -78,29 +77,28 @@
 
     <div id="customerModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('customerModal')">×</span>
-            <img src="customer-support-image.jpg" alt="Customer Support" class="modal-image">
+            <span class="close-btn">×</span>
+            <img src="customer燒upport-image.jpg" alt="Customer Support" class="modal-image">
             <h3>Sales Assistant</h3>
-            <p>Hello! You can contact us for any inquiries or requests.</p>
+            <p>Contact us for inquiries or requests.</p>
             <div class="modal-buttons">
-                <button class="modal-button email" onclick="openInquiryModal()"><i class="fas fa-envelope"></i> Email Inquiry</button>
-                <button class="modal-button unsubscribe" onclick="openUnsubscribeModal()"><i class="fas fa-times"></i> Unsubscribe</button>
-                <button class="modal-button edit" onclick="openEditWebsiteDataModal()"><i class="fas fa-edit"></i> Edit My Website Data</button>
+                <button class="modal-button email"><i class="fas fa-envelope"></i> Email Inquiry</button>
+                <button class="modal-button unsubscribe"><i class="fas fa-times"></i> Unsubscribe</button>
+                <button class="modal-button edit"><i class="fas fa-edit"></i> Edit Website Data</button>
             </div>
         </div>
     </div>
 
     <div id="inquiryModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('inquiryModal')">×</span>
+            <span class="close-btn">×</span>
             <h3>Email Inquiry</h3>
-            <p>Please enter your inquiry message below:</p>
             <form id="inquiryForm">
-                <label class="form-label" for="inquiryMessage">Your Message <span class="required">*</span></label>
-                <textarea id="inquiryMessage" rows="4" required placeholder="Type your inquiry here..."></textarea>
+                <label class="form-label" for="inquiryMessage">Message <span class="required">*</span></label>
+                <textarea id="inquiryMessage" rows="4" required placeholder="Type your inquiry..."></textarea>
                 <div class="modal-buttons">
-                    <button type="submit" class="modal-button email" onclick="submitInquiry(event)"><i class="fas fa-envelope"></i> Send</button>
-                    <button type="button" class="modal-button" style="background-color: #0078d4;" onclick="closeModal('inquiryModal')"><i class="fas fa-arrow-left"></i> Cancel</button>
+                    <button type="submit" class="modal-button email"><i class="fas fa-envelope"></i> Send</button>
+                    <button type="button" class="modal-button" style="background: #0078d4;"><i class="fas fa-arrow-left"></i> Cancel</button>
                 </div>
             </form>
         </div>
@@ -108,17 +106,17 @@
 
     <div id="unsubscribeModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('unsubscribeModal')">×</span>
+            <span class="close-btn">×</span>
             <h3>Unsubscribe Request</h3>
-            <p>Please provide your details to process your unsubscribe request.</p>
+            <p>Provide details to unsubscribe from <strong id="unsubscribeTitle"></strong>:</p>
             <form id="unsubscribeForm">
                 <label class="form-label" for="unsubscribeEmail">Email <span class="required">*</span></label>
                 <input type="email" id="unsubscribeEmail" required placeholder="Enter your email">
                 <label class="form-label" for="unsubscribeSubId">Subscription ID (optional)</label>
                 <input type="text" id="unsubscribeSubId" placeholder="Enter your subscription ID">
                 <div class="modal-buttons">
-                    <button type="submit" class="modal-button unsubscribe" onclick="submitUnsubscribe(event)"><i class="fas fa-times"></i> Submit</button>
-                    <button type="button" class="modal-button" style="background-color: #0078d4;" onclick="closeModal('unsubscribeModal')"><i class="fas fa-arrow-left"></i> Cancel</button>
+                    <button type="submit" class="modal-button unsubscribe"><i class="fas fa-times"></i> Submit</button>
+                    <button type="button" class="modal-button" style="background: #0078d4;"><i class="fas fa-arrow-left"></i> Cancel</button>
                 </div>
             </form>
         </div>
@@ -126,19 +124,19 @@
 
     <div id="editWebsiteDataModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('editWebsiteDataModal')">×</span>
-            <h3>Edit My Website Data</h3>
-            <p>Please provide your details to request website data changes.</p>
+            <span class="close-btn">×</span>
+            <h3>Edit Website Data</h3>
+            <p>Request changes for <strong id="editTitle"></strong>:</p>
             <form id="editWebsiteForm">
                 <label class="form-label" for="editEmail">Email <span class="required">*</span></label>
                 <input type="email" id="editEmail" required placeholder="Enter your email">
                 <label class="form-label" for="editSubId">Subscription ID (optional)</label>
                 <input type="text" id="editSubId" placeholder="Enter your subscription ID">
                 <label class="form-label" for="editDetails">Details <span class="required">*</span></label>
-                <textarea id="editDetails" rows="4" required placeholder="Describe the changes you need..."></textarea>
+                <textarea id="editDetails" rows="4" required placeholder="Describe changes..."></textarea>
                 <div class="modal-buttons">
-                    <button type="submit" class="modal-button edit" onclick="submitEditWebsiteData(event)"><i class="fas fa-edit"></i> Submit</button>
-                    <button type="button" class="modal-button" style="background-color: #0078d4;" onclick="closeModal('editWebsiteDataModal')"><i class="fas fa-arrow-left"></i> Cancel</button>
+                    <button type="submit" class="modal-button edit"><i class="fas fa-edit"></i> Submit</button>
+                    <button type="button" class="modal-button" style="background: #0078d4;"><i class="fas fa-arrow-left"></i> Cancel</button>
                 </div>
             </form>
         </div>
@@ -155,50 +153,51 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+
     <div class="filter-bar" id="filter-bar"></div>
     <div class="card-grid" id="card-grid"></div>
 
     <div id="planModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('planModal')">×</span>
-            <h3>Choose Your Subscription Plan</h3>
+            <span class="close-btn">×</span>
+            <h3>Choose Subscription Plan</h3>
             <div id="planOptions"></div>
             <div class="modal-buttons">
-                <button class="modal-button" onclick="nextStep()" id="nextButton" disabled><i class="fas fa-arrow-right"></i> Next</button>
+                <button id="nextButton" class="modal-button" disabled><i class="fas fa-arrow-right"></i> Next</button>
             </div>
         </div>
     </div>
 
     <div id="monthlyPaymentModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('monthlyPaymentModal')">×</span>
-            <h3>Complete Your Monthly Subscription</h3>
-            <p>You have selected the Monthly - $25/month plan for <strong id="selectedTitleMonthly"></strong>. Please proceed with payment:</p>
-            <div id="paypal-button-container-P-0GA29114E1424251WM7YFF6Y" class="text-center" style="margin: 20px 0;"></div>
+            <span class="close-btn">×</span>
+            <h3>Monthly Subscription</h3>
+            <p>Selected: Monthly - $25/month for <strong id="selectedTitleMonthly"></strong>.</p>
+            <div id="paypal-button-container-P-0GA29114E1424251WM7YFF6Y" style="margin: 20px 0;"></div>
             <p id="monthlyPaymentStatus" style="color: #28a745; display: none;"></p>
-            <p>After payment, you will receive a confirmation email.</p>
+            <p>Confirmation email will follow payment.</p>
         </div>
     </div>
 
     <div id="annualPaymentModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('annualPaymentModal')">×</span>
-            <h3>Complete Your Annual Subscription</h3>
-            <p>You have selected the Annual - $240/year (Save 20%) plan for <strong id="selectedTitleAnnual"></strong>. Please proceed with payment:</p>
-            <div id="paypal-button-container-P-7WT10738JB690582XM7YM4BY" class="text-center" style="margin: 20px 0;"></div>
+            <span class="close-btn">×</span>
+            <h3>Annual Subscription</h3>
+            <p>Selected: Annual - $240/year (Save 20%) for <strong id="selectedTitleAnnual"></strong>.</p>
+            <div id="paypal-button-container-P-7WT10738JB690582XM7YM4BY" style="margin: 20px 0;"></div>
             <p id="annualPaymentStatus" style="color: #28a745; display: none;"></p>
-            <p>After payment, you will receive a confirmation email.</p>
+            <p>Confirmation email will follow payment.</p>
         </div>
     </div>
 
     <div id="successModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('successModal')">×</span>
+            <span class="close-btn">×</span>
             <h3>Subscription Successful!</h3>
-            <p>Your subscription has been successfully created for <strong id="successCardTitle"></strong>. Subscription ID: <strong id="subscriptionId"></strong></p>
-            <p>Copy the subscription ID and save it in a safe place, it's important.</p>
-            <button class="modal-button" onclick="copySubscriptionId()" style="background-color: #0078d4;"><i class="fas fa-copy"></i> Copy Subscription ID</button>
-            <p>Our programmers will contact you via the email address you provided during payment to proceed with your website setup.</p>
+            <p>Subscribed to <strong id="successCardTitle"></strong>. ID: <strong id="subscriptionId"></strong></p>
+            <p>Save your subscription ID securely.</p>
+            <button class="modal-button" style="background: #0078d4;"><i class="fas fa-copy"></i> Copy ID</button>
+            <p>We'll contact you via email for setup.</p>
         </div>
     </div>
 
@@ -214,7 +213,7 @@
     </div>
 
     <script>
-        const firebaseConfig = {
+        const paymentConfig = {
             apiKey: "AIzaSyC2nwp8D06ZQlT5Nt0nWHqpMbeIkF7vPkI",
             authDomain: "mypay2000.firebaseapp.com",
             databaseURL: "https://mypay2000-default-rtdb.firebaseio.com",
@@ -224,8 +223,20 @@
             appId: "1:966144202176:web:5104e27b12f0374e3d6425"
         };
 
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        const cardConfig = {
+            apiKey: "AIzaSyCHQNNb5GbMFacesyshWrqA1gQ-qrTcF1g",
+            authDomain: "card-r200.firebaseapp.com",
+            databaseURL: "https://card-r200-default-rtdb.firebaseio.com",
+            projectId: "card-r200",
+            storageBucket: "card-r200.firebasestorage.app",
+            messagingSenderId: "591656761834",
+            appId: "1:591656761834:web:d570490f86aec0a3459a93"
+        };
+
+        const paymentApp = firebase.initializeApp(paymentConfig, "payment");
+        const cardApp = firebase.initializeApp(cardConfig, "cards");
+        const paymentDB = paymentApp.database();
+        const cardDB = cardApp.database();
 
         const staticData = {
             filters: [
@@ -237,288 +248,233 @@
                 { image: "maxresdefault.jpg", alt: "First Image" },
                 { image: "maxresdefault.jpg", alt: "Second Image" },
                 { image: "maxresdefault.jpg", alt: "Third Image" }
-            ],
-            cards: [
-                { category: "devices", title: "Beauty Salon - Basic", description: "Essential beauty services for small salons.", image: "maxresdefault.jpg", buttonText: "Preview", link: "https://www.example.com/beauty-salon-basic" },
-                { category: "devices", title: "Beauty Salon - Pro", description: "Advanced tools for professional salons.", image: "maxresdefault.jpg", buttonText: "Preview", link: "https://www.example.com/beauty-salon-pro" },
-                { category: "software", title: "Fast Food - Starter", description: "Basic POS for quick service eateries.", image: "maxresdefault.jpg", buttonText: "Preview", link: "https://www.example.com/fast-food-starter" },
-                { category: "software", title: "Fast Food - Enterprise", description: "Full-featured restaurant management.", image: "maxresdefault.jpg", buttonText: "Preview", link: "https://www.example.com/fast-food-enterprise" },
-                { category: "services", title: "Services - Lite", description: "Simple service solutions for startups.", image: "maxresdefault.jpg", buttonText: "Preview", link: "https://www.example.com/services-lite" },
-                { category: "services", title: "Services - Premium", description: "Comprehensive service package.", image: "maxresdefault.jpg", buttonText: "Preview", link: "https://www.example.com/services-premium" }
             ]
         };
 
         let selectedTitle = '';
         let selectedPlan = '';
+        let cards = [];
+        let loadedCards = 0;
+        const cardsPerLoad = 6;
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            if (modalId.includes('Payment')) {
-                const paypalContainers = ['#paypal-button-container-P-0GA29114E1424251WM7YFF6Y', '#paypal-button-container-P-7WT10738JB690582XM7YM4BY'];
-                paypalContainers.forEach(id => {
-                    const el = document.querySelector(id);
-                    if (el) el.innerHTML = '';
-                });
+        const showModal = (id) => document.getElementById(id).style.display = 'flex';
+        const hideModal = (id) => {
+            document.getElementById(id).style.display = 'none';
+            if (id.includes('Payment')) clearPayPal();
+        };
+
+        const clearPayPal = () => {
+            ['#paypal-button-container-P-0GA29114E1424251WM7YFF6Y', '#paypal-button-container-P-7WT10738JB690582XM7YM4BY']
+                .forEach(id => document.querySelector(id).innerHTML = '');
+        };
+
+        const notify = (msg, type = 'success') => {
+            const div = document.createElement('div');
+            div.className = `notification ${type}`;
+            div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${msg}`;
+            document.body.appendChild(div);
+            setTimeout(() => div.classList.add('show'), 100);
+            setTimeout(() => div.classList.remove('show'), 3100);
+            setTimeout(() => div.remove(), 3600);
+        };
+
+        const fetchCards = async () => {
+            try {
+                const snapshot = await cardDB.ref('cards').once('value');
+                cards = snapshot.val() ? Object.values(snapshot.val()) : [
+                    { category: "devices", title: "Fallback", description: "Default card.", image: "maxresdefault.jpg", buttonText: "Preview", link: "https://example.com" }
+                ];
+            } catch (e) {
+                console.error('Card fetch error:', e);
+                cards = [{ category: "devices", title: "Error", description: "Fetch failed.", image: "maxresdefault.jpg", buttonText: "Preview", link: "https://example.com" }];
             }
-        }
+            renderInitialCards();
+            setupLazyLoading();
+        };
 
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function loadCards() {
-            const cardGrid = document.getElementById('card-grid');
-            cardGrid.innerHTML = '';
-            staticData.cards.forEach(card => {
-                const div = document.createElement('div');
-                div.classList.add('card', 'filter', card.category);
-                div.innerHTML = `
-                    <img src="${card.image}" alt="${card.title}" loading="lazy">
-                    <div class="card-bottom">
-                        <div class="card-top">
-                            <h3 class="card-title">${card.title}</h3>
-                            <div class="card-buttons">
-                                <a href="${card.link}" target="_blank"><button class="card-button">${card.buttonText}</button></a>
-                                <button class="card-price-btn" onclick="startSubscription('${card.title}')">Subscribe</button>
-                            </div>
+        const renderCard = (card) => `
+            <div class="card filter ${card.category}">
+                <img src="${card.image}" alt="${card.title}" loading="lazy">
+                <div class="card-bottom">
+                    <div class="card-top">
+                        <h3 class="card-title">${card.title}</h3>
+                        <div class="card-buttons">
+                            <a href="${card.link}" target="_blank"><button class="card-button">${card.buttonText}</button></a>
+                            <button class="card-price-btn" onclick="startSubscription('${card.title}')">Subscribe</button>
                         </div>
-                        <p class="card-description">${card.description}</p>
-                    </div>`;
-                cardGrid.appendChild(div);
-            });
-            filterCards(staticData.filters[0].category);
-        }
+                    </div>
+                    <p class="card-description">${card.description}</p>
+                </div>
+            </div>
+        `;
 
-        function saveSubscriptionToFirebase(subscriptionId, title, planType) {
-            return database.ref('subscriptions/' + subscriptionId).set({
+        const renderInitialCards = () => {
+            const grid = document.getElementById('card-grid');
+            const initialCards = cards.slice(0, cardsPerLoad);
+            grid.innerHTML = initialCards.map(renderCard).join('');
+            loadedCards = initialCards.length;
+            filterCards(staticData.filters[0].category);
+        };
+
+        const loadMoreCards = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && loadedCards < cards.length) {
+                    const grid = document.getElementById('card-grid');
+                    const nextCards = cards.slice(loadedCards, loadedCards + cardsPerLoad);
+                    nextCards.forEach(card => grid.insertAdjacentHTML('beforeend', renderCard(card)));
+                    loadedCards += nextCards.length;
+                    filterCards(document.querySelector('.filter-bar button.active')?.dataset.category || staticData.filters[0].category);
+                }
+            });
+        };
+
+        const setupLazyLoading = () => {
+            const observer = new IntersectionObserver(loadMoreCards, { rootMargin: '200px' });
+            observer.observe(document.getElementById('card-grid'));
+        };
+
+        const filterCards = (cat) => {
+            document.querySelectorAll('.card').forEach(c => c.style.display = c.classList.contains(cat) ? 'block' : 'none');
+            document.querySelectorAll('.filter-bar button').forEach(btn => btn.classList.toggle('active', btn.dataset.category === cat));
+        };
+
+        const saveSubscription = (id, title, plan) =>
+            paymentDB.ref(`subscriptions/${id}`).set({
                 title,
-                plan: planType,
+                plan,
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 status: 'active'
-            }).catch(error => console.error('Error saving subscription:', error));
-        }
+            }).catch(e => console.error('Save error:', e));
 
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
-            document.body.appendChild(notification);
-            setTimeout(() => notification.classList.add('show'), 100);
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 500);
-            }, 3000);
-        }
+        const startSubscription = (title) => {
+            selectedTitle = title;
+            selectedPlan = '';
+            document.getElementById('planOptions').innerHTML = `
+                <div class="option" data-plan="monthly"><strong>Monthly - $25/month</strong><br>- Hosting: 5GB<br>- Domain: Included<br>- SSL</div>
+                <div class="option" data-plan="annual"><strong>Annual - $240/year (Save 20%)</strong><br>- Hosting: 10GB<br>- Domain: Included<br>- SSL</div>
+            `;
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.onclick = () => {
+                    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                    selectedPlan = opt.dataset.plan;
+                    document.getElementById('nextButton').disabled = false;
+                };
+            });
+            document.getElementById('nextButton').disabled = true;
+            showModal('planModal');
+        };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('loader').style.display = 'none';
+        const nextStep = () => {
+            if (!selectedPlan) return;
+            hideModal('planModal');
+            const modal = `${selectedPlan}PaymentModal`;
+            document.getElementById(`selectedTitle${selectedPlan === 'monthly' ? 'Monthly' : 'Annual'}`).textContent = selectedTitle;
+            showModal(modal);
+            renderPayPal(
+                selectedPlan,
+                selectedPlan === 'monthly' ? 'P-0GA29114E1424251WM7YFF6Y' : 'P-7WT10738JB690582XM7YM4BY',
+                `#paypal-button-container-${selectedPlan === 'monthly' ? 'P-0GA29114E1424251WM7YFF6Y' : 'P-7WT10738JB690582XM7YM4BY'}`,
+                `#${selectedPlan}PaymentStatus`
+            );
+        };
+
+        const renderPayPal = (type, planId, containerId, statusId) => {
+            const container = document.querySelector(containerId);
+            const status = document.querySelector(statusId);
+            status.style.display = 'block';
+            status.textContent = 'Processing...';
+            paypal.Buttons({
+                style: { shape: 'rect', color: 'blue', layout: 'vertical', label: 'subscribe' },
+                createSubscription: (_, actions) => actions.subscription.create({ plan_id: planId }),
+                onApprove: (data) => {
+                    status.style.display = 'none';
+                    hideModal(`${type}PaymentModal`);
+                    document.getElementById('successCardTitle').textContent = selectedTitle;
+                    document.getElementById('subscriptionId').textContent = data.subscriptionID;
+                    saveSubscription(data.subscriptionID, selectedTitle, type);
+                    showModal('successModal');
+                },
+                onCancel: () => status.textContent = 'Payment canceled.',
+                onError: (e) => {
+                    status.textContent = 'Payment error.';
+                    console.error('PayPal error:', e);
+                }
+            }).render(container).catch(e => {
+                status.textContent = 'PayPal load failed.';
+                console.error('PayPal render error:', e);
+            });
+        };
+
+        const handleInquiry = (e) => {
+            e.preventDefault();
+            const msg = document.getElementById('inquiryMessage').value;
+            if (!msg) return alert('Enter a message.');
+            window.location.href = `mailto:support@example.com?subject=Inquiry&body=${encodeURIComponent(msg)}`;
+            hideModal('inquiryModal');
+        };
+
+        const handleUnsubscribe = (e) => {
+            e.preventDefault();
+            const email = document.getElementById('unsubscribeEmail').value;
+            const subId = document.getElementById('unsubscribeSubId').value;
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert('Valid email required.');
+            window.location.href = `mailto:support@example.com?subject=Unsubscribe&body=${encodeURIComponent(`Unsubscribe from ${selectedTitle || 'my plan'}.\nEmail: ${email}\nID: ${subId || 'N/A'}`)}`;
+            hideModal('unsubscribeModal');
+        };
+
+        const handleEdit = (e) => {
+            e.preventDefault();
+            const email = document.getElementById('editEmail').value;
+            const subId = document.getElementById('editSubId').value;
+            const details = document.getElementById('editDetails').value;
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !details) return alert('Valid email and details required.');
+            window.location.href = `mailto:support@example.com?subject=Edit Request&body=${encodeURIComponent(`Edit ${selectedTitle || 'my plan'}.\nEmail: ${email}\nID: ${subId || 'N/A'}\nDetails: ${details}`)}`;
+            hideModal('editWebsiteDataModal');
+        };
+
+        const copySubId = () => {
+            navigator.clipboard.writeText(document.getElementById('subscriptionId').textContent)
+                .then(() => notify('ID copied!'))
+                .catch(e => notify('Copy failed.', 'error'));
+        };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            document.querySelector('.loader').style.display = 'none';
             document.body.classList.add('loaded');
 
             const filterBar = document.getElementById('filter-bar');
-            staticData.filters.forEach(filter => {
-                const button = document.createElement('button');
-                button.textContent = filter.name;
-                button.onclick = () => filterCards(filter.category);
-                filterBar.appendChild(button);
+            staticData.filters.forEach(f => {
+                const btn = document.createElement('button');
+                btn.textContent = f.name;
+                btn.dataset.category = f.category;
+                btn.onclick = () => filterCards(f.category);
+                filterBar.appendChild(btn);
             });
 
-            const carouselInner = document.getElementById('carousel-inner');
-            staticData.carousel.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.classList.add('carousel-item');
-                if (index === 0) div.classList.add('active');
-                div.innerHTML = `<img src="${item.image}" class="d-block w-100" alt="${item.alt}" loading="lazy">`;
-                carouselInner.appendChild(div);
-            });
-
-            loadCards();
-
-            document.querySelector('.customer-service').addEventListener('click', () => showModal('customerModal'));
-
-            window.addEventListener('click', e => {
-                ['customerModal', 'inquiryModal', 'unsubscribeModal', 'editWebsiteDataModal', 'planModal', 'monthlyPaymentModal', 'annualPaymentModal', 'successModal'].forEach(modalId => {
-                    if (e.target === document.getElementById(modalId)) closeModal(modalId);
-                });
-            });
-        });
-
-        function startSubscription(title) {
-            selectedTitle = title;
-            selectedPlan = '';
-            const planOptions = document.getElementById('planOptions');
-            planOptions.innerHTML = `
-                <div class="option" data-plan="monthly">
-                    <strong>Monthly - $25/month</strong><br>- Hosting: 5GB<br>- Domain: Included<br>- Security Certificate: SSL Included
+            const carousel = document.getElementById('carousel-inner');
+            carousel.innerHTML = staticData.carousel.map((item, i) => `
+                <div class="carousel-item ${i === 0 ? 'active' : ''}">
+                    <img src="${item.image}" class="d-block w-100" alt="${item.alt}" loading="lazy">
                 </div>
-                <div class="option" data-plan="annual">
-                    <strong>Annual - $240/year (Save 20%)</strong><br>- Hosting: 10GB<br>- Domain: Included<br>- Security Certificate: SSL Included
-                </div>`;
+            `).join('');
 
-            document.querySelectorAll('#planOptions .option').forEach(option => {
-                option.addEventListener('click', () => {
-                    document.querySelectorAll('#planOptions .option').forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedPlan = option.dataset.plan;
-                    document.getElementById('nextButton').disabled = false;
-                });
-            });
+            await fetchCards();
 
-            document.getElementById('nextButton').disabled = true;
-            showModal('planModal');
-        }
-
-        function nextStep() {
-            if (!selectedPlan) return;
-            closeModal('planModal');
-            if (selectedPlan === 'monthly') {
-                document.getElementById('selectedTitleMonthly').textContent = selectedTitle;
-                showModal('monthlyPaymentModal');
-                renderPayPalButton('monthly', 'P-0GA29114E1424251WM7YFF6Y', '#paypal-button-container-P-0GA29114E1424251WM7YFF6Y', '#monthlyPaymentStatus');
-            } else {
-                document.getElementById('selectedTitleAnnual').textContent = selectedTitle;
-                showModal('annualPaymentModal');
-                renderPayPalButton('annual', 'P-7WT10738JB690582XM7YM4BY', '#paypal-button-container-P-7WT10738JB690582XM7YM4BY', '#annualPaymentStatus');
-            }
-        }
-
-        function renderPayPalButton(planType, planId, containerId, statusId) {
-            const container = document.querySelector(containerId);
-            const statusElement = document.querySelector(statusId);
-            if (!container || !statusElement) return;
-
-            statusElement.style.display = 'block';
-            statusElement.textContent = 'Processing payment...';
-
-            paypal.Buttons({
-                style: { shape: 'rect', color: 'blue', layout: 'vertical', label: 'subscribe' },
-                createSubscription: (data, actions) => actions.subscription.create({ plan_id: planId }),
-                onApprove: (data) => {
-                    statusElement.style.display = 'none';
-                    closeModal(planType === 'monthly' ? 'monthlyPaymentModal' : 'annualPaymentModal');
-                    document.getElementById('successCardTitle').textContent = selectedTitle;
-                    document.getElementById('subscriptionId').textContent = data.subscriptionID;
-                    saveSubscriptionToFirebase(data.subscriptionID, selectedTitle, planType);
-                    showModal('successModal');
-                },
-                onCancel: () => {
-                    statusElement.textContent = 'Payment canceled. Please try again.';
-                },
-                onError: (err) => {
-                    statusElement.textContent = 'An error occurred. Please try again or contact support.';
-                    console.error('PayPal Error:', err);
-                }
-            }).render(container).catch(err => {
-                statusElement.textContent = 'Failed to load PayPal button. Please refresh or contact support.';
-                console.error('PayPal Render Error:', err);
-            });
-        }
-
-        function filterCards(category) {
-            document.querySelectorAll('.card').forEach(card => card.style.display = 'none');
-            document.querySelectorAll(`.filter.${category}`).forEach(card => card.style.display = 'block');
-        }
-
-        function openInquiryModal() {
-            document.getElementById('inquiryMessage').value = '';
-            showModal('inquiryModal');
-        }
-
-        function submitInquiry(event) {
-            event.preventDefault();
-            const message = document.getElementById('inquiryMessage').value;
-            if (!message) {
-                alert("Please enter your inquiry message.");
-                return;
-            }
-            const subject = encodeURIComponent("Customer Inquiry");
-            const body = encodeURIComponent(`Hello,\n\n${message}\n\nThank you!`);
-            window.location.href = `mailto:support@example.com?subject=${subject}&body=${body}`;
-            closeModal('inquiryModal');
-        }
-
-        function openUnsubscribeModal() {
-            document.getElementById('unsubscribeEmail').value = '';
-            document.getElementById('unsubscribeSubId').value = document.getElementById('subscriptionId')?.textContent || '';
-            showModal('unsubscribeModal');
-        }
-
-        function submitUnsubscribe(event) {
-            event.preventDefault();
-            const email = document.getElementById('unsubscribeEmail').value;
-            const subscriptionNumber = document.getElementById('unsubscribeSubId').value;
-
-            if (!email) {
-                alert("Email is required to process your request.");
-                return;
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert("Please enter a valid email address.");
-                return;
-            }
-
-            const subject = encodeURIComponent("Unsubscribe Request");
-            const body = encodeURIComponent(
-                `Hello, I would like to unsubscribe from my subscription.\n` +
-                `Email: ${email}\n` +
-                `Subscription ID: ${subscriptionNumber || 'N/A'}\n` +
-                `Please assist with the process and confirm the cancellation.`
-            );
-            window.location.href = `mailto:support@example.com?subject=${subject}&body=${body}`;
-            closeModal('unsubscribeModal');
-        }
-
-        function openEditWebsiteDataModal() {
-            document.getElementById('editEmail').value = '';
-            document.getElementById('editSubId').value = document.getElementById('subscriptionId')?.textContent || '';
-            document.getElementById('editDetails').value = '';
-            showModal('editWebsiteDataModal');
-        }
-
-        function submitEditWebsiteData(event) {
-            event.preventDefault();
-            const email = document.getElementById('editEmail').value;
-            const subscriptionNumber = document.getElementById('editSubId').value;
-            const details = document.getElementById('editDetails').value;
-
-            if (!email) {
-                alert("Email is required to process your request.");
-                return;
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert("Please enter a valid email address.");
-                return;
-            }
-
-            if (!details) {
-                alert("Please provide details for your request.");
-                return;
-            }
-
-            const subject = encodeURIComponent("Website Data Modification Request");
-            const body = encodeURIComponent(
-                `Hello, I need to modify my website data.\n` +
-                `Email: ${email}\n` +
-                `Subscription ID: ${subscriptionNumber || 'N/A'}\n` +
-                `Details: ${details}\n` +
-                `Please assist.`
-            );
-            window.location.href = `mailto:support@example.com?subject=${subject}&body=${body}`;
-            closeModal('editWebsiteDataModal');
-        }
-
-        function copySubscriptionId() {
-            const subscriptionId = document.getElementById('subscriptionId').textContent;
-            navigator.clipboard.writeText(subscriptionId)
-                .then(() => showNotification("Subscription ID copied to clipboard!"))
-                .catch(err => {
-                    console.error('Failed to copy Subscription ID: ', err);
-                    showNotification("Failed to copy Subscription ID.", "error");
-                });
-        }
+            document.querySelector('.customer-service').onclick = () => showModal('customerModal');
+            document.querySelectorAll('.close-btn').forEach(btn => btn.onclick = () => hideModal(btn.closest('.modal').id));
+            document.querySelector('#customerModal .email').onclick = () => { hideModal('customerModal'); showModal('inquiryModal'); };
+            document.querySelector('#customerModal .unsubscribe').onclick = () => { hideModal('customerModal'); showModal('unsubscribeModal'); document.getElementById('unsubscribeTitle').textContent = selectedTitle || 'your plan'; };
+            document.querySelector('#customerModal .edit').onclick = () => { hideModal('customerModal'); showModal('editWebsiteDataModal'); document.getElementById('editTitle').textContent = selectedTitle || 'your plan'; };
+            document.getElementById('inquiryForm').onsubmit = handleInquiry;
+            document.getElementById('unsubscribeForm').onsubmit = handleUnsubscribe;
+            document.getElementById('editWebsiteForm').onsubmit = handleEdit;
+            document.getElementById('nextButton').onclick = nextStep;
+            document.querySelector('#successModal .modal-button').onclick = copySubId;
+            window.onclick = (e) => {
+                if (e.target.classList.contains('modal')) hideModal(e.target.id);
+            };
+        });
     </script>
     <script src="https://www.paypal.com/sdk/js?client-id=AYN4c_fS5kSVJAXzkNeMi6imZ0RSbNw7x4AKAkHMlcuozdCaUduwhoNUCScAa_FxukSI-NOLuCic-oJJ&vault=true&intent=subscription"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
